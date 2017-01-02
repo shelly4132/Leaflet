@@ -8,14 +8,51 @@
 		<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	</head>
 	<body>
-		<div id="mapid" style="width: 600px; height: 400px;"></div>
+		<div id="mapid" style="width: 800px; height: 600px;"></div>
 		<script>
 
-			var map = L.map('mapid').setView([22.9973, 120.2209], 15);
+			var map = L.map('mapid').setView([22.999769, 120.219881], 16);
 
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				maxZoom: 18,
 			}).addTo(map);
+
+			//22.997255, 120.220792
+			var marker = L.marker([22.997255, 120.220792]).addTo(map);
+
+			//23.000311, 120.216165
+			var circle = L.circle(
+			  [23.000311, 120.216165],   // 圓心座標
+			  70,                // 半徑（公尺）
+			  {
+			    color: 'red',      // 線條顏色
+			    fillColor: '#f03', // 填充顏色
+			    fillOpacity: 0.5   // 透明度
+			  }
+			).addTo(map);
+
+			var polygon = L.polygon([
+			  [23.0003531, 120.217004],
+			  [22.9998648, 120.2170156],
+			  [22.9998996, 120.2173902],
+			  [23.0003035, 120.2175811]
+			]).addTo(map);
+
+			marker.bindPopup("<b>地標</b><br>成大資訊系館").openPopup();
+			circle.bindPopup("榕園");
+			polygon.bindPopup("成功湖");
+
+
+			var popup = L.popup();
+			function onMapClick(e) {
+			  popup
+			    .setLatLng(e.latlng)
+			    .setContent("經緯度座標：" + e.latlng.toString())
+			    .openOn(map);
+			}
+
+			map.on('click', onMapClick);
+
 
 		</script>
 	</body>
